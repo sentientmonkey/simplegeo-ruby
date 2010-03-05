@@ -1,7 +1,6 @@
 require 'rubygems'
-
-require 'oauth'
 require 'httparty'
+require 'oauth'
 
 class Simplegeo
   include HTTParty
@@ -10,8 +9,9 @@ class Simplegeo
 
   attr_accessor :layer
 
-  def self.get_request_token(key, secret)
-    OAuth::Consumer.new(key,secret, :site => "http://simplegeo.com").get_request_token
+  def self.get_access_token(key, secret)
+    consumer = OAuth::Consumer.new(key,secret, :site => base_uri)
+    OAuth::AccessToken.new(consumer)
   end
 
   def initialize(layer)

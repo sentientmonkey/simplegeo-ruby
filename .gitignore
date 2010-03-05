@@ -5,3 +5,4 @@
 .project
 ._*
 .DS_Store
+pkg/*
