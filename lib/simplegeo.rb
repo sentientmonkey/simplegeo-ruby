@@ -2,65 +2,87 @@ require 'rubygems'
 require 'crack'
 require 'oauth'
 require 'forwardable'
+require 'uri'
+require 'json'
+
+# This is a client for accessing Simplegeo's REST APIs
+# for full documentation see:
+# http://help.simplegeo.com/faqs/api-documentation/endpoints
 
 class Simplegeo
   BASE_URI = 'http://api.simplegeo.com'
   VER = '0.1'
   attr_accessor :layer
   attr_reader :access_token
-  extend Forwardable
 
+  extend Forwardable
   def_delegators :access_token, :get, :post, :put, :delete
 
+  # initialize a new client with a acess key, secret key, and a default layer
   def initialize(key, secret, layer = nil)
     @access_token = self.class.get_access_token(key, secret)
     @layer = layer
   end
  
+  # find nearby objects given a lat & lng
+  # by default, only searches the the current layer
   def nearby(lat, lng, options = {})
     options = {}
     options[:layers] ||= [self.layer]
     perform_get("/nearby/#{lat},#{lng}.json", :query => options)
   end
 
-  def nearby_address(lat, lng)
+  # reverse geocodes a lat & lng
+  def nearby_address(lat, lng, options = {})
     options = {}
-    options[:layers] ||= [self.layer]
     perform_get("/nearby/address/#{lat},#{lng}.json", :query => options)
   end
 
+  def user_stats
+    perform_get("/stats.json")
+  end
+
   class Records
-    def initialize(simplegeo)
+    def initialize(simplegeo) #:nodoc:
       @simplegeo = simplegeo
     end
 
+    # get a record by id
     def get(id)
       @simplegeo.records_dispatch(:get, id)
     end
 
+    # put a record by id
+    # data should be a hash with at least lat & lon keys, as well as extra data
     def put(id, data)
       @simplegeo.records_dispatch(:put, id, data)
     end
 
+    # delete a record by id
     def delete(id)
       @simplegeo.records_dispatch(:delete, id)
     end
 
+    # get the history of a record by id
     def history(id)
       @simplegeo.records_dispatch(:get_history, id)
     end
   end
 
+  # used to access record APIs
+  # i.e. client.records.get(1)
   def records
     Records.new(self)
   end
 
-  def records_dispatch(operation, id, data = nil)
+  def records_dispatch(operation, id, body = nil) #:nodoc:
     case operation
     when :get_history
       perform(:get, "/records/#{layer}/#{id}/history.json")
+    when :put
+      perform(:put, "/records/#{layer}/#{id}.json", :body => build_feature(id, body))
     else
-      perform(operation, "/records/#{layer}/#{id}.json", :data => data)
+      perform(operation, "/records/#{layer}/#{id}.json")
     end
   end
 
@@ -74,7 +96,7 @@ class Simplegeo
   def perform(operation, path, options = {})
     case operation
     when :put, :post
-      handle_response(self.send(operation, options[:data], build_uri(path, options)))
+      handle_response(self.send(operation, build_uri(path, options), options[:body].to_json))
     else
       handle_response(self.send(operation, build_uri(path, options)))
     end
@@ -105,9 +127,18 @@ class Simplegeo
   def build_query(query)
     if query && query != {}
       query.map do |k,v|
-        [k,v].join('=')
+        [k.to_s,v.to_s].join('=')
       end.join('&')
     end
+  end
+
+  def build_feature(id, body)
+    {:type => 'Feature', 
+     :id => id,
+     :created => body[:created],
+     :geometry => { :type => 'Point',
+                    :coordinates => [body[:lon], body[:lat]]},
+     :properties => body.reject{|k,v| [:created, :lat, :lon].include?(k) }}
   end
 
   def handle_response(response)

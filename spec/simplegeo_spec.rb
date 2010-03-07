@@ -27,9 +27,40 @@ describe "Simplegeo" do
   end
 
   it "should be able to find nearby address" do
-    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.simplegeo.us.zip')
-    result = simple.nearby(47.607089,-122.332034)
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'])
+    result = simple.nearby_address(47.607089,-122.332034)
     result.should be_a_kind_of(Hash)
+    result['properties'].should_not be_nil
+    result['properties']['place_name'].should eql('Seattle')
+    result['properties']['state_name'].should eql('Washington')
+    result['properties']['street'].should eql('5th Ave')
+    result['properties']['postal_code'].should eql('98104')
+    result['properties']['county_name'].should eql('King')
+    result['properties']['country'].should eql('US')
+  end
+
+  it "should be able to find user stats" do
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.simplegeo.us.zip')
+    result = simple.user_stats
+    result.should be_a_kind_of(Hash)
+    result['requests'].should_not be_nil
+    result['requests']['nearby'].should_not be_nil
+  end
+
+  it "should be able to put record" do
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.sentientmonkey.test')
+    result = simple.records.put(1, {:lat => 47.607089, :lon => -122.332034, :test => 'one'})
+    result = simple.records.get(1)
+  end
+
+  it "should be able to delete record" do
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.sentientmonkey.test')
+    result = simple.records.put(2, {:lat => 47.607089, :lon => -122.332034, :test => 'two'})
+    puts result.inspect
+    result = simple.records.delete(2)
+    puts result.inspect
+    result = simple.records.get(2)
+    puts result.inspect
   end
 
 end
