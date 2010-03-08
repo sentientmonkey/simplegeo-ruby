@@ -1,9 +1,16 @@
 require 'rubygems'
+
+gem 'crack', '~> 0.1.7'
 require 'crack'
+
+gem 'oauth', '~> 0.3.6'
 require 'oauth'
+
+gem 'json', '~> 1.2.2'
+require 'json'
+
 require 'forwardable'
 require 'uri'
-require 'json'
 
 # This is a client for accessing Simplegeo's REST APIs
 # for full documentation see:
@@ -40,6 +47,10 @@ class Simplegeo
 
   def user_stats
     perform_get("/stats.json")
+  end
+
+  def layer_stats
+    perform_get("/stats/#{layer}.json")
   end
 
   class Records

@@ -11,8 +11,9 @@ begin
     gem.homepage = "http://github.com/sentientmonkey/simplegeo-ruby"
     gem.authors = ["Scott Windsor"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_dependency('httparty', '>= 0.5.2')
     gem.add_dependency('oauth', '>= 0.3.6')
+    gem.add_dependency('crack', '>= 0.1.7')
+    gem.add_dependency('json', '>= 1.2.2')
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

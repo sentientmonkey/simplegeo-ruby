@@ -51,16 +51,22 @@ describe "Simplegeo" do
     simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.sentientmonkey.test')
     result = simple.records.put(1, {:lat => 47.607089, :lon => -122.332034, :test => 'one'})
     result = simple.records.get(1)
+    #TODO assertions
   end
 
   it "should be able to delete record" do
     simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.sentientmonkey.test')
     result = simple.records.put(2, {:lat => 47.607089, :lon => -122.332034, :test => 'two'})
-    puts result.inspect
     result = simple.records.delete(2)
-    puts result.inspect
     result = simple.records.get(2)
-    puts result.inspect
+    #TODO assertions
+  end
+
+  it "should be able to find layer stats" do
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.sentientmonkey.test')
+    result = simple.layer_stats
+    result.should be_a_kind_of(Hash)
+    result['requests'].should_not be_nil
   end
 
 end
