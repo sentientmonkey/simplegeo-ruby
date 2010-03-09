@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "simplegeo"
     gem.summary = %Q{a simplegeo client written in ruby}
-    gem.description = %Q{a simplegeo client written in ruby}
+    gem.description = %Q{a simplegeo client written in ruby.  see http://help.simplegeo.com/faqs/api-documentation/endpoints for more info.}
     gem.email = "swindsor@gmail.com"
     gem.homepage = "http://github.com/sentientmonkey/simplegeo-ruby"
     gem.authors = ["Scott Windsor"]

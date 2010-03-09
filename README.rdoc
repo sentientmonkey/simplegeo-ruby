@@ -1,6 +1,10 @@
 = simplegeo-ruby
 
-Description goes here.
+This is a Ruby client for the Simplegeo API (Version 0.1)
+
+For the specific documentation on APIs (and the full list of parameters) see:
+
+http://help.simplegeo.com/faqs/api-documentation/endpoints
 
 == Note on Patches/Pull Requests
  
