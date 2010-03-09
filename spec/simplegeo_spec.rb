@@ -69,4 +69,14 @@ describe "Simplegeo" do
     result['requests'].should_not be_nil
   end
 
+  it "should raise NotFound exception on invalid record" do
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.simplegeo.us.zip')
+    lambda{ simple.records.get(1) }.should raise_exception(Simplegeo::NotFound)
+  end
+
+  it "should raise NotAuthorized exception on invalid keys" do
+    simple = Simplegeo.new('bad key', 'bad secret', 'com.simplegeo.us.zip')
+    lambda{ simple.records.get(98122) }.should raise_exception(Simplegeo::NotAuthorized)
+  end
+
 end

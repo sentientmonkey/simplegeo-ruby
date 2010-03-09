@@ -25,6 +25,10 @@ class Simplegeo
   extend Forwardable
   def_delegators :access_token, :get, :post, :put, :delete
 
+  class NotAuthorized < StandardError; end
+  class NotFound < StandardError; end
+  class InternalError < StandardError; end
+
   # initialize a new client with a acess key, secret key, and a default layer
   def initialize(key, secret, layer = nil)
     @access_token = self.class.get_access_token(key, secret)
@@ -158,13 +162,14 @@ class Simplegeo
   end
 
   def raise_errors(response)
-=begin
     case response.code.to_i
       when 401
-        data = parse(response)
-        raise RateLimitExceeded.new(data), "(#{response.code}): #{response.message} - #{data['error'] if data}"
+        raise NotAuthorized.new "(#{response.code}): #{response.message}"
+      when 404
+        raise NotFound.new "(#{response.code}): #{response.message}"
+      when 500
+        raise InternalError.new "(#{response.code}): #{response.message}"
     end
-=end
   end
  
   def parse(response)
