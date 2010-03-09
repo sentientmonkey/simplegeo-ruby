@@ -10,23 +10,24 @@
 	<style type="text/css">
 		body {
   		margin-top: 1.0em;
-  		background-color: #3b8ced;
+  		background-color: rgb(174,218,235);
 		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #000000;
+  		color: rgb(84,66,46);
     }
     #container {
       margin: 0 auto;
       width: 700px;
     }
-		h1 { font-size: 3.8em; color: #c47312; margin-bottom: 3px; }
+    h1, h2, h3 { color: rgb(184,165,123); }
+		h1 { font-size: 3.8em; margin-bottom: 3px; }
 		h1 .small { font-size: 0.4em; }
 		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #c47312; }
-    h3 { text-align: center; color: #c47312; }
-    a { color: #c47312; }
+		h2 { font-size: 1.5em;}
+    h3 { text-align: center; }
+    a { color: rgb(92,115,49); }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
+		pre { background: rgb(0,0,0); color: rgb(256,256,256); padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
 	</style>
@@ -52,12 +53,16 @@
       a simple geo client written in ruby
     </div>
 
-    <p>See http://help.simplegeo.com/faqs/api-documentation/endpoints for more info on the APIs.</p><h2>Dependencies</h2>
-<p>oauth 0.3.6 or greater
-crack 0.1.7 or greater
-json 1.2.2 or greater</p>
+    <p>See <a href="http://help.simplegeo.com/faqs/api-documentation/endpoints">http://help.simplegeo.com/faqs/api-documentation/endpoints</a> for more info on the APIs.</p><h2>Dependencies</h2>
+    <ul>
+      <li>oauth 0.3.6 or greater</li>
+      <li>crack 0.1.7 or greater</li>
+      <li>json 1.2.2 or greater</li>
+    </ul>
 <h2>Install</h2>
-<p>gem install </p>
+<p>
+<pre>$ gem install simplegeo</pre>
+</p>
 <h2>License</h2>
 <p>MIT</p>
 <h2>Authors</h2>
