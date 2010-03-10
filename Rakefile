@@ -11,6 +11,7 @@ begin
     gem.homepage = "http://github.com/sentientmonkey/simplegeo-ruby"
     gem.authors = ["Scott Windsor"]
     gem.add_development_dependency "rspec", ">= 1.3.0"
+    gem.add_development_dependency "hanna", ">= 0.1.12"
     gem.add_dependency('oauth', '>= 0.3.6')
     gem.add_dependency('crack', '>= 0.1.7')
     gem.add_dependency('json', '>= 1.2.2')
@@ -36,7 +37,10 @@ task :spec => :check_dependencies
 
 task :default => :spec
 
-require 'rake/rdoctask'
+#require 'rake/rdoctask'
+gem 'hanna'
+require 'hanna/rdoctask'
+
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
@@ -44,4 +48,5 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "simplegeo #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+
 end
