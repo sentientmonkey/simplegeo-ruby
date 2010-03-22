@@ -38,14 +38,12 @@ class Simplegeo
   # find nearby objects given a lat & lng
   # by default, only searches the the current layer
   def nearby(lat, lng, options = {})
-    options = {}
     options[:layers] ||= [self.layer]
     perform_get("/nearby/#{lat},#{lng}.json", :query => options)
   end
 
   # reverse geocodes a lat & lng
   def nearby_address(lat, lng, options = {})
-    options = {}
     perform_get("/nearby/address/#{lat},#{lng}.json", :query => options)
   end
 

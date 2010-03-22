@@ -26,6 +26,13 @@ describe "Simplegeo" do
     result.should be_a_kind_of(Hash)
   end
 
+  it "should be able to find nearby with options" do
+    simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.simplegeo.global.foursquare')
+    result = simple.nearby(47.607089,-122.332034, :limit => 5)
+    result.should be_a_kind_of(Hash)
+    result['features'].count.should == 5
+  end
+
   it "should be able to find nearby address" do
     simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'])
     result = simple.nearby_address(47.607089,-122.332034)
