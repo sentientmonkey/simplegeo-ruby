@@ -3,7 +3,7 @@ require 'rubygems'
 gem 'crack', '~> 0.1.7'
 require 'crack'
 
-gem 'oauth', '~> 0.3.6'
+gem 'oauth', '>= 0.3.6'
 require 'oauth'
 
 gem 'json', '>= 1.2.2'
