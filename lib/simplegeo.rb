@@ -6,7 +6,7 @@ require 'crack'
 gem 'oauth', '~> 0.3.6'
 require 'oauth'
 
-gem 'json', '~> 1.2.2'
+gem 'json', '>= 1.2.2'
 require 'json'
 
 require 'forwardable'
