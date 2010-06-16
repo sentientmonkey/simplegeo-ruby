@@ -65,7 +65,7 @@ describe "Simplegeo" do
     simple = Simplegeo.new(@test_keys['key'], @test_keys['secret'], 'com.sentientmonkey.test')
     result = simple.records.put(2, {:lat => 47.607089, :lon => -122.332034, :test => 'two'})
     result = simple.records.delete(2)
-    result = simple.records.get(2)
+    lambda{ simple.records.get(2) }.should raise_exception(Simplegeo::NotFound)
     #TODO assertions
   end
 
